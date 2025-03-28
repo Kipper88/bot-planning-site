@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Общий график переговорных</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .schedule {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .schedule h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .booking {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+            transition: all 0.3s ease;
+        }
+
+        .booking:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(0);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .booking .time {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffd700;
+            min-width: 120px;
+        }
+
+        .booking .details {
+            flex: 1;
+            text-align: left;
+        }
+
+        .booking .company {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+        }
+
+        .booking .event {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+
+        .no-bookings {
+            font-size: 1.2rem;
+            color: #888;
+            padding: 20px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .clock-icon {
+            width: 24px;
+            height: 24px;
+            fill: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="schedule">
+            <h2>Большая переговорная (21 кабинет) на {{ date }}</h2>
+            <div id="big-bookings">
+                {% if big_room_bookings %}
+                    {% for booking in big_room_bookings %}
+                        <div class="booking">
+                            <svg class="clock-icon" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6l4.5 2.7.8-1.3-4-2.4V7z"/>
+                            </svg>
+                            <div class="time">{{ booking[0] }}</div>
+                            <div class="details">
+                                <div class="company">{{ booking[1] }}</div>
+                                <div class="event">{{ booking[2] }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-bookings">Нет броней.</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="schedule">
+            <h2>Малая переговорная (7 каб) на {{ date }}</h2>
+            <div id="small-bookings">
+                {% if small_room_bookings %}
+                    {% for booking in small_room_bookings %}
+                        <div class="booking">
+                            <svg class="clock-icon" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6l4.5 2.7.8-1.3-4-2.4V7z"/>
+                            </svg>
+                            <div class="time">{{ booking[0] }}</div>
+                            <div class="details">
+                                <div class="company">{{ booking[1] }}</div>
+                                <div class="event">{{ booking[2] }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-bookings">Нет броней.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
